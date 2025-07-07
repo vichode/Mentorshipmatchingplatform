@@ -1,3 +1,4 @@
+
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
@@ -15,6 +16,11 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Health check root route
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
