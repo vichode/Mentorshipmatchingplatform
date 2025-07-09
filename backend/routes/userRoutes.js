@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { updateProfile, getMe } = require('../controllers/userController');
-const { protect } = require('../middleware/authMiddleware');
+const auth = require('../middleware/authMiddleware'); // import default
 
-router.get('/me', protect, getMe);
-router.put('/me/profile', protect, updateProfile);
+const { updateProfile, getMe } = require('../controllers/userController');
+
+// Use auth() instead of protect
+router.get('/me', auth(), getMe);
+router.put('/me/profile', auth(), updateProfile);
 
 module.exports = router;
