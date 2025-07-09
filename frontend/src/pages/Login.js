@@ -19,7 +19,11 @@ export default function Login() {
         form
       );
 
+      // ✅ Save token and role to localStorage
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', res.data.user.role);
+
+      // ✅ Redirect to profile page
       navigate('/profile/edit');
     } catch (err) {
       setError(err.response?.data?.msg || 'Login failed');
