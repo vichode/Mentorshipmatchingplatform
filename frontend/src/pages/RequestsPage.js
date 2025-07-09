@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
 export default function RequestsPage() {
@@ -6,17 +6,17 @@ export default function RequestsPage() {
   const [message, setMessage] = useState('');
   const token = localStorage.getItem('token');
 
-  const loadRequests = () => {
+  const loadRequests = useCallback(() => {
     axios.get('https://mentorship-api-iu4u.onrender.com/api/requests/incoming', {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => setRequests(res.data))
     .catch(() => setMessage('Failed to load requests'));
-  };
+  }, [token]);
 
   useEffect(() => {
     loadRequests();
-  }, [token]);
+  }, [loadRequests]); // ✅ No warning now
 
   const respond = async (id, action) => {
     try {
