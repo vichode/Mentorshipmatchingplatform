@@ -6,6 +6,13 @@ const User = require('../models/User');
 const Request = require('../models/Request');
 
 // =========================
+// ✅ Health check route
+// =========================
+router.get('/test', (req, res) => {
+  res.send('API is running');
+});
+
+// =========================
 // 🔐 AUTH ROUTES
 // =========================
 
