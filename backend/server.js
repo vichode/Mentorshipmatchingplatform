@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const cors = require('cors');
 
-// Load environment variables
+// Load environment variables from .env
 dotenv.config();
 
 // Connect to MongoDB
@@ -21,12 +21,12 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/requests', require('./routes/requestRoutes'));
 app.use('/api/sessions', require('./routes/sessionRoutes'));
 
-// Optional test route
+// Health check/test endpoint
 app.get('/api/auth/test', (req, res) => {
   res.send('API is running');
 });
 
-// ✅ Key fix for Render:
+// ✅ Fix for Render: bind to 0.0.0.0
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () =>
   console.log(`Server running on port ${PORT}`)
