@@ -7,16 +7,23 @@ export default function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', form);
-      localStorage.setItem('token', res.data.token); // save JWT
-      navigate('/profile/edit'); // redirect to profile page
+      const res = await axios.post(
+        'https://mentorship-api-iu4u.onrender.com/api/auth/login',
+        form
+      );
+
+      // Save token
+      localStorage.setItem('token', res.data.token);
+
+      // Redirect to profile page
+      navigate('/profile/edit');
     } catch (err) {
       setError(err.response?.data?.msg || 'Login failed');
     }
@@ -31,6 +38,7 @@ export default function Login() {
           name="email"
           type="email"
           placeholder="Email"
+          value={form.email}
           onChange={handleChange}
           required
         /><br />
@@ -39,6 +47,7 @@ export default function Login() {
           name="password"
           type="password"
           placeholder="Password"
+          value={form.password}
           onChange={handleChange}
           required
         /><br />

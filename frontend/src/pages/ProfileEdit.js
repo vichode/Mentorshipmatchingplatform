@@ -22,20 +22,24 @@ export default function ProfileEdit() {
       return;
     }
 
-    axios.get('http://localhost:5000/api/auth/me', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then(res => {
-      setForm(prev => ({
-        ...prev,
-        name: res.data.name || '',
-        bio: res.data.bio || '',
-        skills: res.data.skills || [],
-        goals: res.data.goals || ''
-      }));
-    })
-    .catch(() => setMessage('Error fetching user info'));
-  }, [token]); // ✅ token added as dependency
+    axios
+      .get('https://mentorship-api-iu4u.onrender.com/api/auth/me', {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => {
+        setForm(prev => ({
+          ...prev,
+          name: res.data.name || '',
+          bio: res.data.bio || '',
+          skills: res.data.skills || [],
+          goals: res.data.goals || ''
+        }));
+      })
+      .catch(err => {
+        console.error(err);
+        setMessage('❌ Error fetching user info');
+      });
+  }, [token]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -54,11 +58,16 @@ export default function ProfileEdit() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.put('http://localhost:5000/api/users/me/profile', form, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.put(
+        'https://mentorship-api-iu4u.onrender.com/api/users/me/profile',
+        form,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
       setMessage('✅ Profile updated successfully!');
     } catch (err) {
+      console.error(err);
       setMessage('❌ Error updating profile');
     }
   };
