@@ -4,13 +4,17 @@ const auth = require('../middleware/authMiddleware');
 const { updateProfile, getMe } = require('../controllers/userController');
 const User = require('../models/User');
 
-// Get current user
+// =========================
+// 🔐 Authenticated Routes
+// =========================
+
+// Get current logged-in user
 router.get('/me', auth(), getMe);
 
-// Update current user's profile
+// Update user profile
 router.put('/me/profile', auth(), updateProfile);
 
-// ✅ Get all users by role (mentors, mentees, etc.)
+// Get all users (optionally filtered by role e.g., ?role=mentor)
 router.get('/all', auth(), async (req, res) => {
   const { role } = req.query;
 
