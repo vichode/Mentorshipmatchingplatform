@@ -7,7 +7,7 @@ export default function RequestsPage() {
   const token = localStorage.getItem('token');
 
   const loadRequests = () => {
-    axios.get('http://localhost:5000/api/requests/incoming', {
+    axios.get('https://mentorship-api-iu4u.onrender.com/api/requests/incoming', {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => setRequests(res.data))
@@ -15,22 +15,17 @@ export default function RequestsPage() {
   };
 
   useEffect(() => {
-  axios.get('http://localhost:5000/api/requests/incoming', {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-  .then(res => setRequests(res.data))
-  .catch(() => setMessage('Failed to load requests'));
-}, [token]); // include token
-
+    loadRequests();
+  }, [token]);
 
   const respond = async (id, action) => {
     try {
-      await axios.put(`http://localhost:5000/api/requests/${id}/respond`, {
+      await axios.put(`https://mentorship-api-iu4u.onrender.com/api/requests/${id}/respond`, {
         status: action
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      loadRequests(); // refresh list
+      loadRequests();
     } catch {
       setMessage('Failed to update request');
     }
@@ -51,7 +46,7 @@ export default function RequestsPage() {
               Status: <b>{req.status}</b><br />
               {req.status === 'pending' && (
                 <>
-                  <button onClick={() => respond(req._id, 'accepted')}>Accept</button>
+                  <button onClick={() => respond(req._id, 'accepted')}>Accept</button>{' '}
                   <button onClick={() => respond(req._id, 'rejected')}>Reject</button>
                 </>
               )}

@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 export default function BookSession() {
   const token = localStorage.getItem('token');
   const location = useLocation();
-  const mentor = location.state?.mentor; // mentor passed from MentorList
+  const mentor = location.state?.mentor;
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -21,9 +21,8 @@ export default function BookSession() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-
     try {
-      await axios.post('http://localhost:5000/api/sessions', {
+      await axios.post('https://mentorship-api-iu4u.onrender.com/api/sessions', {
         mentorId: mentor._id,
         ...form
       }, {

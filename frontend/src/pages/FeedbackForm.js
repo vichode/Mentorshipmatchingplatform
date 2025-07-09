@@ -15,7 +15,7 @@ export default function FeedbackForm() {
     e.preventDefault();
 
     try {
-      await axios.put(`http://localhost:5000/api/sessions/${session._id}/feedback`, {
+      await axios.put(`https://mentorship-api-iu4u.onrender.com/api/sessions/${session._id}/feedback`, {
         feedback,
         rating
       }, {

@@ -10,7 +10,7 @@ export default function MySessions() {
   const navigate = useNavigate();
 
   const loadSessions = useCallback(() => {
-    axios.get('http://localhost:5000/api/sessions', {
+    axios.get('https://mentorship-api-iu4u.onrender.com/api/sessions', {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => setSessions(res.data))
@@ -23,7 +23,7 @@ export default function MySessions() {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/sessions/${id}/status`, { status }, {
+      await axios.put(`https://mentorship-api-iu4u.onrender.com/api/sessions/${id}/status`, { status }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       loadSessions();
@@ -36,7 +36,6 @@ export default function MySessions() {
     <div style={{ padding: 40 }}>
       <h2>My Sessions</h2>
       {message && <p>{message}</p>}
-
       {sessions.length === 0 ? (
         <p>No sessions scheduled</p>
       ) : (
@@ -48,13 +47,8 @@ export default function MySessions() {
               <strong>Status:</strong> <b>{session.status}</b><br />
               <strong>Mentor:</strong> {session.mentor?.name} ({session.mentor?.email})<br />
               <strong>Mentee:</strong> {session.mentee?.name} ({session.mentee?.email})<br />
-              {session.notes && (
-                <>
-                  <strong>Notes:</strong> {session.notes}<br />
-                </>
-              )}
+              {session.notes && <><strong>Notes:</strong> {session.notes}<br /></>}
 
-              {/* 🔁 If mentor and status is pending, allow to confirm/cancel */}
               {role === 'mentor' && session.status === 'pending' && (
                 <>
                   <button onClick={() => handleStatusChange(session._id, 'confirmed')}>Confirm</button>{' '}
@@ -62,14 +56,12 @@ export default function MySessions() {
                 </>
               )}
 
-              {/* ⭐ If mentee and session completed but not rated */}
               {role === 'mentee' && session.status === 'completed' && !session.feedback && (
                 <button onClick={() => navigate('/feedback', { state: { session } })}>
                   Leave Feedback
                 </button>
               )}
 
-              {/* 🧾 Show feedback if available */}
               {session.feedback && (
                 <>
                   <strong>Feedback:</strong> {session.feedback}<br />

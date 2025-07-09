@@ -19,8 +19,9 @@ export default function Register() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', form);
+      const res = await axios.post('https://mentorship-api-iu4u.onrender.com/api/auth/register', form);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', res.data.user.role);
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.msg || 'Registration failed');

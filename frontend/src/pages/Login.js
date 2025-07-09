@@ -19,10 +19,7 @@ export default function Login() {
         form
       );
 
-      // Save token
       localStorage.setItem('token', res.data.token);
-
-      // Redirect to profile page
       navigate('/profile/edit');
     } catch (err) {
       setError(err.response?.data?.msg || 'Login failed');
