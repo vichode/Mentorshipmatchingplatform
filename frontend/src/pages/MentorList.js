@@ -10,7 +10,7 @@ export default function MentorList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/users/all?role=mentor', {
+    axios.get('https://mentorship-api-iu4u.onrender.com/api/users/all?role=mentor', {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => setMentors(res.data))
@@ -19,11 +19,11 @@ export default function MentorList() {
 
   const handleRequest = async (mentorId) => {
     try {
-      await axios.post('http://localhost:5000/api/requests', {
-        mentorId
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.post(
+        'https://mentorship-api-iu4u.onrender.com/api/requests',
+        { mentorId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setMessage('✅ Mentorship request sent!');
     } catch (err) {
       const msg = err.response?.data?.msg || 'Error sending request';
