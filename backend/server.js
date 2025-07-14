@@ -15,17 +15,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Root route to show API is live
+// Main Routes
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/sessions', require('./routes/sessionRoutes'));
+
+// ✅ Root route for health check
 app.get('/', (req, res) => {
   res.send('API is running');
 });
 
-// Main Routes
-app.use('/api/auth', require('./routes/authRoutes'));         // includes login, register, test, me, profile, requests
-app.use('/api/users', require('./routes/userRoutes'));        // for any additional user-specific logic
-app.use('/api/sessions', require('./routes/sessionRoutes'));  // for booking/viewing sessions
-
-// ✅ Required for Render: Bind to 0.0.0.0
+// ✅ Required for Render (bind to 0.0.0.0)
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () =>
   console.log(`Server running on port ${PORT}`)
